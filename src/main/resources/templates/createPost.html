@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 작성</title>
+
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bulma CSS 링크 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/main.css">
+
+    <script>
+        function createPost() {
+            // 1. 작성한 글 정보를 불러온다.
+            let name = $('#inputName').val();
+            let title = $('#inputTitle').val();
+            let contents = $('#contentText').val();
+
+            // 2. 작성한 정보가 올바른지 체크한다.
+            if (isValidContents(name, title, contents) == false) {
+                return;
+            }
+
+            let data = {'username': name, 'title': title, 'contents': contents};
+
+            $.ajax({
+                type: "POST",
+                url: "/create/writePost",
+                contentType: "application/json", // JSON 형식으로 전달함을 알리기
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('메시지가 성공적으로 작성되었습니다.');
+                    window.location.href = "/";
+                }
+            });
+        }
+
+        function isValidContents(name, title, contents) {
+            if (name == '') {
+                alert('이름을 입력해 주세요');
+                return false;
+            } else if (title == '') {
+                alert('제목을 입력해 주세요');
+                return false;
+            } else if (contents == '') {
+                alert('내용을 입력해 주세요');
+                return false;
+            }
+
+            if (name.trim().length > 30) {
+                alert('이름이 30자를 초과 했습니다.');
+                return false;
+            } else if (title.trim().length > 40) {
+                alert('제목이 40자를 초과했습니다.');
+                return false;
+            } else if (contents.trim().length > 1000) {
+                alert('내용이 1000자를 초과했습니다.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+</head>
+<body>
+
+<header class="header">
+    <div class="limiter">
+        <div class="container-table100">
+            <div>
+          <span style="float:right">
+                <form id="my_form" method="post" action="/user/logout">
+                    <a id="logout-text" href="javascript:{}"
+                       onclick="document.getElementById('my_form').submit();">로그아웃</a>
+                </form>
+          </span>
+                <div class="user-info">
+                    <div id="header-title-login-user">
+                        환영합니다 <span th:text="${username}"></span> 님
+                    </div>
+                    <img id="banner" src="/images/banner.png" alt="" onclick="window.location.href='/'" />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</header>
+
+<section class="limiter">
+    <div class="container-table100">
+        <div class="formcontrol">
+            <form class="formClass">
+                <div class="form-group row">
+                    <label for="inputName" class="col-sm-1 col-form-label">이름</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputName" placeholder="이름을 입력하세요" th:value="${username}"
+                               readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputTitle" class="col-sm-1 col-form-label">제목</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputTitle" placeholder="제목을 입력하세요">
+                    </div>
+                </div>
+                <label for="contentText" style="float: left">내용</label>
+                <div class="col-sm-11">
+                            <textarea class="form-control" id="contentText" rows="3" placeholder="내용을 입력하세요"
+                                      style="height: 230px"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    <div>
+        <button class="btn btn-primary" type="submit" style="margin: 20px auto; display: block;"
+                onclick="createPost()">생성
+        </button>
+    </div>
+    </div>
+</section>
+
+<footer></footer>
+</body>
+</html>

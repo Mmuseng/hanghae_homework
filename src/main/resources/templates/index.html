@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta property="og:title" content="항해 일지">
+    <meta property="og:description" content="항해 일지를 공유해요!">
+    <meta property="og:image" content="image/og_hanghaeblog.png">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bulma CSS 링크 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <!-- ... -->
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="/css/main.css" />
+    <!--===============================================================================================-->
+
+    <title>항해99 블로그</title>
+  </head>
+
+  <body>
+    <div class="limiter">
+      <div class="container-table100">
+        <div>
+          <span style="float:right">
+                <form id="my_form" method="post" action="/user/logout">
+                    <a id="logout-text" href="javascript:{}"
+                       onclick="document.getElementById('my_form').submit();">로그아웃</a>
+                </form>
+          </span>
+          <div class="user-info">
+            <div id="header-title-login-user">
+              환영합니다 <span th:text="${username}"></span> 님
+            </div>
+          <img id="banner" src="/images/banner.png" alt="" onclick="window.location.href='/'" />
+          </div>
+
+        </div>
+
+        <div class="wrap-table100">
+          <div class="table100 ver1 m-b-110">
+            <div class="table100-head">
+              <table>
+                <thead>
+                  <tr class="row100 head">
+                    <th class="cell100 column1">번호</th>
+                    <th class="cell100 column2">제목</th>
+                    <th class="cell100 column3">작성자</th>
+                    <th class="cell100 column4">작성날짜</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="table100-body js-pscroll" id="posting_list"></div>
+          </div>
+          <div>
+            <button class="button" id="modal_btn" onclick="location.href='/create/writePost'">글쓰기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script>
+      $(document).ready(function () {
+        // HTML 문서를 로드할 때마다 실행합니다.
+        getMessages();
+      });
+
+      // 메모를 불러와서 보여줍니다.
+      function getMessages() {
+        // $('#posting_list').empty();
+        // 2. 메모 목록을 불러와서 HTML로 붙입니다.
+        $.ajax({
+          type: "GET",
+          url: "/views/postList",
+          success: function (response) {
+            for (let i = 0; i < response.length; i++) {
+              let message = response[i];
+              let id = message["id"];
+              let title = message["title"];
+              let username = message["username"];
+              let modifiedAt = message["modifiedAt"];
+              addHTML(id, title, username, modifiedAt);
+            }
+          },
+        });
+      }
+
+      function viewPost(id){
+        window.location.href = `/views/postings/${id}`;
+
+      }
+
+      // 메모 하나를 HTML로 만들어서 body 태그 내 원하는 곳에 붙입니다.
+      function addHTML(id, title, username, modifiedAt) {
+        // 1. HTML 태그를 만듭니다.
+        let tempHtml = `<table>
+                                <tr class="row100 body" id="${id}-list">
+                                    <td class="cell100 column1" id="${id}-id">${id}</td>
+                                    <td class="cell100 column2" id="${id}-title"><a onclick="viewPost(${id})" id="detail_link">${title}</a></td>
+                                    <td class="cell100 column3" id="${id}-username">${username}</td>
+                                    <td class="cell100 column4" id="${id}-createdAt">${modifiedAt}</td>
+                                </tr>
+                          </table>`
+        // 2. #cards-box 에 HTML을 붙인다.
+        $('#posting_list').append(tempHtml);
+      }
+
+    </script>
+  </body>
+</html>
