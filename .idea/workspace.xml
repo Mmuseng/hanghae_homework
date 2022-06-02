@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91d4fc66-d399-4b36-8899-e53b2ffb7f0c" name="Changes" comment="Changes" />
+    <list default="true" id="91d4fc66-d399-4b36-8899-e53b2ffb7f0c" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/spring/myblog/validator/UserValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/spring/myblog/validator/UserValidator.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -247,7 +250,7 @@
       <workItem from="1654088523340" duration="4359000" />
       <workItem from="1654131197443" duration="1192000" />
       <workItem from="1654134495929" duration="148000" />
-      <workItem from="1654134861179" duration="534000" />
+      <workItem from="1654134861179" duration="2162000" />
     </task>
     <servers />
   </component>

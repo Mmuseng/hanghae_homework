@@ -19,12 +19,13 @@ public class UserValidator {
         System.out.println(requestDto.getPassword());
         System.out.println(requestDto.getUsername());
 
-        // 요청으로 들어온 비밀번호가 4자리 미만 또는
+        // 요청으로 들어온 비밀번호가 4자리 미만 또는 유저네임이 포함 되어있는지
         if ( requestDto.getPassword().length() < 4 ||
                 requestDto.getPassword().contains(requestDto.getUsername()) ) {
             throw new IllegalArgumentException("패스워드가 유효하지 않습니다.");
         }
 
+        //테스트 코드 유효성 검사용
         if ( !dbPW.equals(requestDto.getPassword()) ) {
             throw new IllegalArgumentException("패스워드가 일치하지 않습니다.");
         }
